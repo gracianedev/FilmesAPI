@@ -4,19 +4,23 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("FilmeConnection");
 
+// Configura conexão com db
 builder.Services.AddDbContext<FilmeContext>(opts => 
     opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-// Adiciona os serviços ao container.
+// Adiciona os serviços do AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Adiciona os serviços ao container
 builder.Services.AddControllers();
 
-// Configurações do Swagger (Essenciais para ver a tela azul)
+// Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configura o pipeline de requisição HTTP.
+// Configura o pipeline de requisição HTTP
 // O Swagger deve rodar sempre em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
@@ -24,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection(); 
+app.UseHttpsRedirection(); 
 
 app.UseAuthorization();
 

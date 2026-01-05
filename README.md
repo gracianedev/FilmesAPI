@@ -2,17 +2,23 @@
 
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
 
-API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de filmes. O projeto utiliza Entity Framework Core para persistência de dados.
+API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de filmes. O projeto utiliza Entity Framework Core para persistência de dados e inclui relacionamentos complexos entre entidades.
 
-## 🔨 Funcionalidades Atuais
+## 📸 Demonstração (localhost)
 
-- **CRUD Completo:**
-  - `POST /filme`: Cadastrar novos filmes.
-  - `GET /filme`: Listar todos os filmes.
-  - `GET /filme/{id}`: Detalhes de um filme específico.
-  - `PUT /filme/{id}`: Atualizar dados de um filme.
-  - `DELETE /filme/{id}`: Remover um filme do catálogo.
-- **Tratamento de Erros:** Retornos HTTP adequados (200, 201, 204, 404, 500).
+![Interface do Swagger](docs/print-swagger.png)
+
+
+## 🔨 Funcionalidades
+
+- **CRUD Completo de Filmes:**
+  - Cadastro com validação de dados.
+  - Leitura com paginação (`Skip` e `Take`).
+  - Atualização com gerenciamento de **Gêneros (Relacionamento N:N)**.
+  - Exclusão (com tratamento de integridade referencial).
+- **Relacionamento Muitos-para-Muitos:** Vínculo entre Filmes e Gêneros.
+- **Pattern DTO:** Separação entre modelos de domínio e objetos de transferência.
+- **AutoMapper:** Mapeamento automático entre Entidades e DTOs.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -21,15 +27,13 @@ API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de 
 - Entity Framework Core
 - Banco de Dados (MySQL)
 - Swagger (para documentação e testes)
+- AutoMapper
 
 ## 🚀 Próximos Passos (Roadmap)
 
-Este projeto está em evolução constante. As próximas melhorias planejadas são:
-
-- [ ] **DTOs (Data Transfer Objects):** Implementar DTOs para separar a camada de domínio da camada de apresentação, garantindo mais segurança e controle sobre os dados recebidos e enviados.
-- [ ] **Async/Await:** Refatorar os métodos do Controller para utilizar programação assíncrona (`ToListAsync`, `SaveChangesAsync`), melhorando a performance e escalabilidade da API.
-- [ ] **Filtros de Busca:** Implementar buscas específicas (ex: por nome, por ano, etc).
-- [ ] **Paginação:** Implementar `Skip` e `Take` para lidar com grandes volumes de dados.
+- [ ] **Async/Await:** Refatorar os Controllers para chamadas assíncronas.
+- [ ] **Filtros de Busca:** Buscar filmes por nome ou gênero específico.
+- [ ] **Autenticação:** Proteger a API com JWT.
 
 ## 📝 Como rodar
 
@@ -41,4 +45,3 @@ Este projeto está em evolução constante. As próximas melhorias planejadas s�
 ## 👩🏻‍💻 Desenvolvido por 
 
 [**Graciane**](mailto:graciane.dev@gmail.com)
-
