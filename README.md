@@ -31,7 +31,7 @@ API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de 
 
 ## 🚀 Próximos Passos (Roadmap)
 
-- [ ] **Async/Await:** Refatorar os Controllers para chamadas assíncronas.
+- [x] **Async/Await:** Refatorar os Controllers para chamadas assíncronas.
 - [ ] **Filtros de Busca:** Buscar filmes por nome ou gênero específico.
 - [ ] **Autenticação:** Proteger a API com JWT.
 

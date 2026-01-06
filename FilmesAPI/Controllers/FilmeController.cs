@@ -26,7 +26,7 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AdicionarFilme([FromBody] CriacaoFilmeDTO novoFilmeDTO)
+    public async Task<IActionResult> AdicionarFilme([FromBody] CriacaoFilmeDTO novoFilmeDTO)
     {
         Filme filme = _mapper.Map<Filme>(novoFilmeDTO);
         filme.FilmesGenero = new List<FilmesGenero>();
@@ -43,22 +43,22 @@ public class FilmeController : ControllerBase
             }
         }
         _context.Filmes.Add(filme);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
-        var filmeCompleto = _context.Filmes
+        var filmeCompleto = await _context.Filmes
             .Include(f => f.FilmesGenero)
             .ThenInclude(fg => fg.Genero)
-            .FirstOrDefault(f => f.Id == filme.Id);
+            .FirstOrDefaultAsync(f => f.Id == filme.Id);
         LeituraFilmeDTO filmeDTO = _mapper.Map<LeituraFilmeDTO>(filmeCompleto);
         return CreatedAtAction(nameof(RecuperarFilme), new { id = filme.Id }, filmeDTO);
     }
 
     [HttpGet]
-    public IEnumerable<LeituraFilmeDTO> RecuperarFilmes([FromQuery] int skip = 0)
+    public async Task<IEnumerable<LeituraFilmeDTO>> RecuperarFilmes([FromQuery] int skip = 0)
     {
-        var listaFilmes = _context.Filmes
+        var listaFilmes = await _context.Filmes
             .Include(f => f.FilmesGenero)
-            .ThenInclude(fg => fg.Genero).Skip(skip).ToList();
+            .ThenInclude(fg => fg.Genero).Skip(skip).ToListAsync();
 
 
         return _mapper.Map<List<LeituraFilmeDTO>>(listaFilmes);
@@ -66,13 +66,13 @@ public class FilmeController : ControllerBase
 
 
     [HttpGet("{id}")]
-    public IActionResult RecuperarFilme(int id)
+    public async Task<IActionResult> RecuperarFilme(int id)
     {
 
-        var filmeEncontrado = _context.Filmes
+        var filmeEncontrado = await _context.Filmes
             .Include(f => f.FilmesGenero)
             .ThenInclude(fg => fg.Genero)
-            .FirstOrDefault(f => f.Id == id);
+            .FirstOrDefaultAsync(f => f.Id == id);
         if (filmeEncontrado != null)
         {
             LeituraFilmeDTO filmeDTO = _mapper.Map<LeituraFilmeDTO>(filmeEncontrado);
@@ -86,16 +86,16 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult EditarFilme(int id, [FromBody] AtualizacaoFilmeDTO filmeDTO)
+    public async Task<IActionResult> EditarFilme(int id, [FromBody] AtualizacaoFilmeDTO filmeDTO)
     {
         Filme filme = _mapper.Map<Filme>(filmeDTO);
 
         try
         {
-            Filme filmeEncontrado = _context.Filmes
+            Filme filmeEncontrado = await _context.Filmes
             .Include(f => f.FilmesGenero)
             .ThenInclude(fg => fg.Genero)
-            .FirstOrDefault(f => f.Id == id);
+            .FirstOrDefaultAsync(f => f.Id == id);
 
             if (filmeEncontrado != null)
             {
@@ -116,11 +116,11 @@ public class FilmeController : ControllerBase
                     _context.FilmesGenero.Add(novoVinculo);
                     }
                 }
-                _context.SaveChanges();
-                        var filmeCompleto = _context.Filmes
+                await _context.SaveChangesAsync();
+                        var filmeCompleto = await _context.Filmes
                         .Include(f => f.FilmesGenero)
                         .ThenInclude(fg => fg.Genero)
-                        .FirstOrDefault(f => f.Id == id);
+                        .FirstOrDefaultAsync(f => f.Id == id);
                         LeituraFilmeDTO leituraFilmeDTO = _mapper.Map<LeituraFilmeDTO>(filmeCompleto);
                         return Ok(leituraFilmeDTO);
                     
@@ -139,23 +139,23 @@ public class FilmeController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult ExcluirFilme(int id)
+    public async Task<IActionResult> ExcluirFilme(int id)
     {
 
         try
         {
-            Filme filmeEncontrado = _context.Filmes.Find(id);
+            Filme filmeEncontrado = await _context.Filmes.FindAsync(id);
             if (filmeEncontrado != null)
             {
                 // Busca e remoção dos vínculos com a tabela relacional FilmesGenero
-                var vinculo = _context.FilmesGenero
+                var vinculo = await _context.FilmesGenero
                     .Where(fg => fg.IdFilme == id)
-                    .ToList();
+                    .ToListAsync();
                 _context.FilmesGenero.RemoveRange(vinculo);
 
 
                 _context.Filmes.Remove(filmeEncontrado);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             else
