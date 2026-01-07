@@ -19,5 +19,7 @@ namespace FilmesAPI.DTO
         [Required(ErrorMessage = "O ano do filme é obrigatório")]
         public int Ano { get; set; }
 
+        public List<int>AtorId { get; set; }
+
     }
 }

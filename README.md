@@ -6,19 +6,20 @@ API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de 
 
 ## 📸 Demonstração (localhost)
 
-![Interface do Swagger](docs/print-swagger.png)
-
+![Interface do Swagger](docs/SwaggerUI.png)
 
 ## 🔨 Funcionalidades
 
 - **CRUD Completo de Filmes:**
   - Cadastro com validação de dados.
   - Leitura com paginação (`Skip` e `Take`).
-  - Atualização com gerenciamento de **Gêneros (Relacionamento N:N)**.
-  - Exclusão (com tratamento de integridade referencial).
-- **Relacionamento Muitos-para-Muitos:** Vínculo entre Filmes e Gêneros.
-- **Pattern DTO:** Separação entre modelos de domínio e objetos de transferência.
-- **AutoMapper:** Mapeamento automático entre Entidades e DTOs.
+  - **Filtros Avançados:** Busca dinâmica por Nome do Filme, Gênero, Ator, Ano e Ordenação customizada.
+  - Atualização com gerenciamento de relacionamentos.
+- **Gestão de Gêneros:** Controller dedicado para criar, listar e deletar gêneros.
+- **Relacionamento Muitos-para-Muitos:** - Vínculo entre Filmes e Gêneros. DER disponível na pasta [docs](docs).
+  - Vínculo entre Filmes e Atores (Elenco).
+- **Pattern DTO:** Separação estrita entre modelos de domínio (Entity) e objetos de transferência (DTO).
+- **AutoMapper:** Mapeamento automático inteligente, incluindo projeção de listas aninhadas (Ex: Filmes trazem seus Gêneros e Atores).
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -26,13 +27,16 @@ API REST desenvolvida em C# com .NET Core para gerenciamento de um catálogo de 
 - .NET 6+ (ASP.NET Core)
 - Entity Framework Core
 - Banco de Dados (MySQL)
-- Swagger (para documentação e testes)
+- Swagger (Documentação)
 - AutoMapper
+- LINQ (Consultas complexas)
 
 ## 🚀 Próximos Passos (Roadmap)
 
 - [x] **Async/Await:** Refatorar os Controllers para chamadas assíncronas.
-- [ ] **Filtros de Busca:** Buscar filmes por nome ou gênero específico.
+- [x] **Filtros de Busca:** Buscar filmes por nome, gênero, ator ou ano.
+- [x] **Refatoração:** Criação do GeneroController independente.
+- [ ] **Paginação Avançada:** Retornar metadados (total de páginas, itens por página).
 - [ ] **Autenticação:** Proteger a API com JWT.
 
 ## 📝 Como rodar

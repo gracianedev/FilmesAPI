@@ -18,4 +18,7 @@ public class Filme
     public int Duracao { get; set; }
 
     public virtual ICollection<FilmesGenero> FilmesGenero { get; set; }
+
+    public virtual ICollection<Elenco> ElencoFilme { get; set; }
+
 }

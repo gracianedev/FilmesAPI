@@ -14,16 +14,23 @@ namespace FilmesAPI.Profiles
         {
             CreateMap<CriacaoFilmeDTO, Filme>();
 
-            CreateMap<LeituraFilmeDTO, Filme>();
+            CreateMap<Filme, LeituraFilmeDTO>();
 
             CreateMap<AtualizacaoFilmeDTO, Filme>();
 
+            CreateMap<CadastroNovoAtorDTO, Ator>();
+
+            CreateMap<Ator, LeituraAtorDTO>();
 
             CreateMap<Genero, LeituraGeneroDTO>();
 
+            CreateMap<CadastroNovoGeneroDTO, Genero>();
+
             CreateMap<Filme, LeituraFilmeDTO>()
                 .ForMember(filmeDto => filmeDto.Genero,
-                    opt => opt.MapFrom(filme => filme.FilmesGenero.Select(fg => fg.Genero)));
+                    opt => opt.MapFrom(filme => filme.FilmesGenero.Select(fg => fg.Genero)))
+                .ForMember(filmeDto => filmeDto.Atores,
+                    opt => opt.MapFrom(filme => filme.ElencoFilme.Select(ef=> ef.Ator)));
 
              CreateMap<Filme, AtualizacaoFilmeDTO>()
                 .ForMember(filmeDto => filmeDto.GeneroIds,
